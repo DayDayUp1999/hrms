@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.king.hrmsdev.mapper.AttendanceMapper">
+
+<!--    请假管理-->
+<!--    查询所有请假条-->
+    <select id="Findallaleave" resultType="com.king.hrmsdev.pojo.aleaveinfo">
+        select aleave.*,employees.ename,employees.sex from aleave,employees where aleave.job_id=employees.job_id
+    </select>
+
+<!--    查询所有批准假条-->
+    <select id="Findallapproval" resultType="com.king.hrmsdev.pojo.aleaveinfo">
+        select aleave.*,employees.ename,employees.sex from aleave,employees where aleave.job_id=employees.job_id and examine=0
+    </select>
+
+<!--    查询所有拒绝假条-->
+    <select id="Findallrefuse" resultType="com.king.hrmsdev.pojo.aleaveinfo">
+        select aleave.*,employees.ename,employees.sex from aleave,employees where aleave.job_id=employees.job_id and examine=1
+    </select>
+
+<!--    查询所有未处理假条-->
+    <select id="Findalluntreated" resultType="com.king.hrmsdev.pojo.aleaveinfo">
+        select aleave.*,employees.ename,employees.sex from aleave,employees where aleave.job_id=employees.job_id and examine=2
+    </select>
+
+<!--    同意请假条-->
+    <update id="Approvalaleave" parameterType="int">
+        update aleave set examine=0 where aleave_id=#{aleave_id}
+    </update>
+
+    <!-- 拒绝请假条-->
+    <update id="Refusealeave" parameterType="int">
+        update aleave set examine=1 where aleave_id=#{aleave_id}
+    </update>
+
+<!--    添加假条-->
+    <insert id="Insertaleave" parameterType="Aleave">
+    insert into aleave (job_id,btime,etime,reason,examine) values (#{job_id},#{btime},#{etime},#{reason},#{examine})
+    </insert>
+
+<!--    请假条模糊查询-->
+    <select id="AleaveFuzzyreward" parameterType="map" resultType="com.king.hrmsdev.pojo.aleaveinfo">
+        select  aleave.*,employees.ename,employees.sex from aleave,employees
+        <where>
+            aleave.job_id=employees.job_id
+            <if test="job_id != null">
+                and aleave.job_id LIKE CONCAT('%','${job_id}','%')
+            </if>
+            <if test="aleave_id != null">
+                and aleave_id LIKE CONCAT('%','${aleave_id}','%')
+            </if>
+            <if test="department_id !=null">
+                and department_id like CONCAT('%','${department_id}','%')
+            </if>
+            <if test="btime !=null or etime !=null">
+                and btime between #{btime} and #{etime}
+            </if>
+            <if test="btime !=null or etime !=null">
+                and etime between #{btime} and #{etime}
+            </if>
+        </where>
+    </select>
+
+
+<!--    考勤状况-->
+
+<!--    查询所有考勤状况-->
+    <select id="Findallecheck" resultType="com.king.hrmsdev.pojo.echeckinfo">
+         select echeck.*,employees.ename,employees.sex from echeck,employees where echeck.job_id=employees.job_id
+    </select>
+
+<!--    添加考勤记录-->
+    <insert id="Insertecheck">
+        insert into echeck (job_id,opentime,closetime,state) values (#{job_id}#{opentime},#{closetime},#{state})
+    </insert>
+
+<!--    通过echeck_id查找信息-->
+    <select id="FindByecheck_id" resultType="com.king.hrmsdev.pojo.echeckinfo">
+        select echeck.*,employees.ename,employees.sex from echeck,employees where echeck.job_id=employees.job_id and echeck_id=#{echeck_id}
+    </select>
+
+<!--    通过echeck_id修改考勤记录-->
+    <update id="Updateecheck">
+        update echeck set job_id=#{job_id},opentime=#{opentime},
+        closetime=#{closetiem},sqlstate =#{state} where echeck_id={#echeck_id}
+    </update>
+
+<!--    通过echeck_id删除考勤记录-->
+    <delete id="Deleteecheck" parameterType="int">
+        delete from echeck where echeck_id=#{echeck_id}
+    </delete>
+
+<!--    考勤信息模糊查询-->
+    <select id="EcheckFuzzyreward" parameterType="map" resultType="com.king.hrmsdev.pojo.echeckinfo">
+        select echeck.*,employees.ename,employees.sex from echeck,employees
+        <where>
+            echeck.job_id=employees.job_id
+            <if test="job_id != null">
+                and echeck.job_id LIKE CONCAT('%','${job_id}','%')
+            </if>
+            <if test="echeck_id != null">
+                and echeck_id LIKE CONCAT('%','${echeck_id}','%')
+            </if>
+            <if test="opentime !=null and closetime !=null">
+                and opentime between #{opentime} and #{closetime}
+            </if>
+            <if test="opentime !=null and closetime !=null">
+                and closetime between #{opentime} and #{closetime}
+            </if>
+            <if test="opentime !=null">
+                and opentime &gt;= #{opentime}
+            </if>
+            <if test="closetime != null">
+                and closetime &lt;= #{closetime}
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+
+
+
+
+
+    <!-- 查出state=0 迟到的次数   -->
+    <select id="findstate0">
+        SELECT COUNT(*) late  FROM echeck where state=0 and opentime between #{opentime} and #{closetime}
+        and closetime between #{opentime} and #{closetime} and reward_id=#{reward_id}
+    </select>
+
+    <!-- 查出state=1 早退的次数   -->
+    <select id="findstate1">
+        SELECT COUNT(*) late  FROM echeck where state=1 and opentime between #{opentime} and #{closetime}
+        and closetime between #{opentime} and #{closetime} and reward_id=#{reward_id}
+    </select>
+
+    <!-- 查出state=2 请假的次数   -->
+    <select id="findstate2">
+        SELECT COUNT(*) late  FROM echeck where state=2 and opentime between #{opentime} and #{closetime}
+        and closetime between #{opentime} and #{closetime} and reward_id=#{reward_id}
+    </select>
+
+    <!-- 查出state=3 旷工的次数   -->
+    <select id="findstate3">
+        SELECT COUNT(*) late  FROM echeck where state=3 and opentime between #{opentime} and #{closetime}
+        and closetime between #{opentime} and #{closetime} and reward_id=#{reward_id}
+    </select>
+
+    <!-- 查出state=4 加班的次数   -->
+    <select id="findstate4">
+        SELECT COUNT(*) late  FROM echeck where state=5 and opentime between #{opentime} and #{closetime}
+        and closetime between #{opentime} and #{closetime} and reward_id=#{reward_id}
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>

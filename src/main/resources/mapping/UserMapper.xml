@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.king.hrmsdev.mapper.UserMapper">
+    <select id="loginCheck" parameterType="String" resultType="com.king.hrmsdev.entity.User">
+    select * from users where USERNAME = #{username}
+  </select>
+
+    <select id="findall" resultType="com.king.hrmsdev.entity.User">
+    select * from users
+  </select>
+
+    
+</mapper>

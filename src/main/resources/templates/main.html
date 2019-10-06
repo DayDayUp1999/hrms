@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>主页</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="https://unpkg.com/element-ui@2.8.2/lib/theme-chalk/index.css">
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			background-color: #EEE;
+		}
+
+		.app {
+			font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+		}
+
+		.content-box {
+			margin: 1em;
+			padding: 1em;
+			background-color: #FFF;
+			color: #666;
+		}
+
+		.el-tag {
+			border-radius: 1px;
+		}
+
+		/*800之下*/
+		@media(max-width: 800px) {
+			.kapian {
+				width: 100% !important;
+				margin-right: 0px !important;
+			}
+
+			.saoma {
+				display: none;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="app">
+
+		<div class="content-box">
+			<div style="padding: 1em; border-left: 5px #2D8CF0 solid; background-color: #EEE;">
+				<big><big>Welcome to HR考勤平台 </big></big>
+				<span style="display: inline-block; margin-left: 1em; color: #888;"> —— 一个基于springboot的管理平台</span>
+			</div>
+		</div>
+
+		<div class="content-box">
+
+			<div class="saoma" style="width: 20%; float: left; margin-right: 4%;">
+				<el-divider content-position="left">
+					<big><big>扫码进入考勤小程序</big></big>
+				</el-divider>
+				<div style="text-align: center;">
+					<img src="sa-resources/admin-qqq.png" style="width: 80%; ">
+					</div>
+				</div>
+				<div class="kapian" style="width: 35%; float: left; margin-right: 4%;">
+					<el-divider content-position="left">
+						<big><big>人力资源管理系统</big></big>
+					</el-divider>
+					<div style="font-size: 0.9em; line-height: 1.6em;">
+						<p>
+							该系统通过springboot+mybatis+mysql开发，主要功能包括部门管理、职员管理、考勤管理、奖惩管理、薪资管理、报表管理、系统管理.
+						</p>
+						<br>
+						<ul style="padding-left: 1em; line-height: 1.5em;">
+							<li> <b>-后台主要技术-</b></li>
+							<li>
+								<b>技术一: springboot</b>
+							</li>
+							<li>
+								<b>技术二: mybatis</b>
+							</li>
+							<li>
+								<b>技术三: shiro</b>
+							</li>
+							<br>
+							<li>
+								<b>开发者：</b>
+								<el-link type="primary" href="https://baike.so.com/doc/1279856-24188840.html" target="_blank">夏荣锋 张远镇 郭羽翼 周哲</el-link>
+							</li>
+							<li>
+								<b>GitHub地址：</b>
+								<el-link type="primary" href="https://github.com/click33/sa-admin" target="_blank">https://github.com/click33/sa-admin</el-link>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+				<div class="kapian" style="width: 35%; float: left;">
+					<el-divider content-position="left">
+						<big><big>前端技术选型</big></big>
+					</el-divider>
+					<ul style="padding-left: 1em; line-height: 1.5em;">
+						<li>
+							<el-link type="primary" href="https://cn.vuejs.org/" target="_blank">JS引擎：Vue @2.6.10</el-link>
+						</li>
+						<li>
+							<el-link type="primary" href="https://element.eleme.cn/#/zh-CN" target="_blank">UI框架：Element-UI @2.8.2</el-link>
+						</li>
+						<li>
+							<el-link type="primary" href="http://layer.layui.com/" target="_blank">web弹层：layer @3.1.1</el-link>
+						</li>
+						<li>
+							<el-link type="primary" href="https://www.swiper.com.cn/" target="_blank">切页动画：Swiper @4.5.0</el-link>
+						</li>
+						<li>
+							<el-link type="primary" href="https://echarts.baidu.com/" target="_blank">图表引擎：ECharts @4.2.1</el-link>
+						</li>
+						<li>
+							<el-link type="primary" href="http://www.wangeditor.com/" target="_blank">富文本编辑器：wangEditor @3.1.1</el-link>
+						</li>
+					</ul>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+
+
+			<div class="content-box">
+				<div class="kapian" style="font-size: 0.9em; line-height: 1.6em; width: 40%; float: left; margin-right: 5%;">
+					<el-divider content-position="left">
+						<big><big>WEB端功能介绍</big></big>
+					</el-divider>
+					<h4>WEB平台分为管理员、员工提供服务</h4>
+					<ul style="padding-left: 1em; line-height: 1.5em;">
+						<li>
+							部门管理：部门信息管理、部门职位管理
+						</li>
+						<li>
+							职员管理：员工信息管理、员工职位变动管理
+						</li>
+						<li>
+							考勤管理：月度、年度考勤报告、员工考勤管理、请假管理
+						</li>
+						<li>
+							奖惩管理： 奖励：加班+22/小时 惩罚：迟到10/次 早退20/次 请假50/天 缺勤100/天
+						</li>
+						<li>
+							薪资管理： 实际工资信息管理
+						</li>
+						<li>
+							报表管理：部门人数统计图、员工工资统计图、考勤统计图
+						</li>
+						<li>
+							系统管理：登录用户管理、登录日志。权限管理
+						</li>
+						<li>
+							使用说明，
+							<a href="javascript:;" @click="openDoc">见文档</a>
+						</li>
+					</ul>
+				</div>
+				<div class="kapian" style="font-size: 0.9em; line-height: 1.6em; width: 45%; float: left;">
+					<el-divider content-position="left">
+						<big><big>小程序端功能：</big></big>
+					</el-divider>
+
+					<h4>小程序专为员工考勤开发</h4>
+					<ul style="padding-left: 1em; line-height: 1.5em;">
+
+						<li>
+							上班打卡：记录上班打卡时间
+						</li>
+						<li>
+							下班打卡：记录下班打卡时间
+						</li>
+						<li>
+							考勤情况： 查看个人当前考勤情况
+						</li>
+						<li>
+							个人信息： 姓名、工号、性别、年龄、部门、职位、电话
+						</li>
+						<li>
+							提交请假： 填写假条，提交给管理员审核
+						</li>
+						<li>
+							假条状态：查看提交假条审批情况
+						</li>
+					</ul>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+
+			<br><br>
+
+		</div>
+
+			<script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+
+			<script type="text/javascript">
+				Vue.config.productionTip = false;
+			</script>
+			<script src="https://unpkg.com/element-ui@2.8.2/lib/index.js"></script>
+			<script type="text/javascript">
+				new Vue({
+					el: '.app',
+					data: {
+
+					},
+					methods: {
+						// 没了
+						meile: function() {
+							this.$message({
+								message: '没了还点',
+								type: 'warning'
+							});
+						},
+						// 显示文档页面
+						openDoc: function() {
+							parent.sp.selectMenu(11);
+						}
+
+					}
+				})
+			</script>
+
+
+</body>
+
+</html>

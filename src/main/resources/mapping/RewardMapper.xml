@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.king.hrmsdev.mapper.RewardMapper">
+
+
+<!--    通过reward_id查询信息reward-->
+    <select id="FindByID" parameterType="int" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees where reward_id = #{reward_id} and reward.job_id=employees.job_id
+    </select>
+
+<!-- 查询所有reward-->
+    <select id="Findallreward" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees where reward.job_id=employees.job_id
+    </select>
+
+    <!--   查询所有reward 迟到次数排序 -->
+    <select id="Findalllate" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees where reward.job_id=employees.job_id ORDER BY late DESC
+    </select>
+
+    <!--   查询所有reward 早退次数排序 -->
+    <select id="Findallleaveearly" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees where reward.job_id=employees.job_id ORDER BY leaveearly DESC
+    </select>
+
+    <!--   查询所有reward 请假次数排序 -->
+    <select id="Findallleave" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees where reward.job_id=employees.job_id ORDER BY leave DESC
+    </select>
+
+    <!--   查询所有reward 旷工次数排序 -->
+    <select id="Findallabsenteeism" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees where reward.job_id=employees.job_id ORDER BY absenteeism DESC
+    </select>
+
+
+
+<!--    插入reward表信息-->
+    <insert id="Insertreward">
+        insert into reward (job_id,checktime,overtime,late,leaveearly,aleave,absenteeism) values(#{job_id},#{checktime},#{overtime},#{late},#{leaveearly},#{aleave},#{absenteeism})
+    </insert>
+
+<!--    通过工号id修改reward数据-->
+    <update id="Updatereward">
+        update reward set job_id=#{job_id},checktime=#{checktime},overtime=#{overtime},late=#{late},leaveearly=#{leaveearly},aleave=#{aleave},absenteeism=#{absenteeism} where reward_id=#{reward_id}
+    </update>
+
+<!--    通过reward_id删除reward数据-->
+    <delete id="deletereward">
+        delete from reward where reward_id=#{reward_id}
+    </delete>
+
+<!--    全勤员工查询   -->
+    <select id="Findworkhard" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees where late=0 and leaveearly=0 and aleave=0 and absenteeism=0 and reward.job_id=employees.job_id
+    </select>
+
+
+<!--    奖惩信息模糊条件查询-->
+    <select id="RewardFuzzyreward" parameterType="map" resultType="com.king.hrmsdev.pojo.rewardinfo">
+        select reward.*,employees.ename,employees.sex from reward,employees
+        <where>
+            reward.job_id=employees.job_id
+            <if test="job_id != null">
+                and reward.job_id LIKE CONCAT('%','${job_id}','%')
+            </if>
+            <if test="reward_id != null">
+                and reward_id LIKE CONCAT('%','${reward_id}','%')
+            </if>
+            <if test="beginDate !=null or endDate !=null">
+                and checktime between #{beginDate} and #{endDate}
+            </if>
+        </where>
+    </select>
+
+
+<!--    通过JOB——id查询reward——id-->
+    <select id="selectreward_id">
+        select reward_id from reward where job_id=#{job_id}
+    </select>
+
+</mapper>
